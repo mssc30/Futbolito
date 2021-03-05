@@ -12,7 +12,6 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 public class MainActivity extends Activity implements SensorEventListener {
@@ -68,9 +67,8 @@ public class MainActivity extends Activity implements SensorEventListener {
     }
 
     public class MiVista extends View {
-
         //TAMAÑO PELOTA
-        private static final int RADIO_CIRCULO = 45; //pixels
+        private static final int RADIO_CIRCULO = 45;
 
         //VARIABLES NECESARIAS
         private Paint miPaint, miPaint2;
@@ -102,9 +100,6 @@ public class MainActivity extends Activity implements SensorEventListener {
 
         //EVENTO QUE SE EJECUTA CADA QUE HAY NUEVOS DATOS EN EL SENSOR
         public void eventoSensor (SensorEvent event) {
-
-            Log.d("X", x +", "+y);
-
             //CALCULAR EL VALOR NUEVO DE X, Y
             x = x - (int) event.values[0];
             y = y + (int) event.values[1];
@@ -128,12 +123,14 @@ public class MainActivity extends Activity implements SensorEventListener {
                 y = alto - RADIO_CIRCULO;
             }
 
+            //SI LA PELOTA CAYO EN LA PORTERIA 1
             if(((x > 218 & x < 495) & (y > 44 & y < 186))){
                 jug1++;
                 x = 360; //VALOR DE INICIO
                 y = 685; //CENTRO PANTALL
             }
 
+            //SI LA PORTERIA CAYO EN LA PORTERIA 2
             if(((x > 217 & x < 495) & (y > 1173 & y < 1324))){
                 jug2++;
                 x = 360; //VALOR DE INICIO
@@ -144,7 +141,6 @@ public class MainActivity extends Activity implements SensorEventListener {
         //METODO QUE HACE QUE SE PINTE EL CANVAS
         @Override
         protected void onDraw(Canvas canvas) {
-
             //PINTAR FONDO CANCHA
             Bitmap background = BitmapFactory.decodeResource(getResources(), R.drawable.fondo_fut);
             Rect screen = new Rect(0, 0, ancho, alto);
@@ -159,8 +155,6 @@ public class MainActivity extends Activity implements SensorEventListener {
 
             //PINTAR PELOTA
             canvas.drawCircle(x, y, RADIO_CIRCULO, miPaint);
-
-            //Log.d("coordenadas", x + " - " + y);
 
             //HACE QUE SE ESTE DIBUJANDO CONSTANTEMENTE
             invalidate();
